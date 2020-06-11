@@ -60,14 +60,14 @@ const start = async () => {
 }
 
 const loadLabeledImages = () => {
-    const names = ['dongtt', 'nhung']
+    const names = ['dongtt', 'nhung', 'dien']
 
     return Promise.all(
         names.map(async name => {
             const descriptions = []
             for (let i = 1; i < 3; i++) {
 
-                const image = await faceapi.fetchImage(`http://localhost:8888//photos-train/${name}/${i}.JPG`)
+                const image = await faceapi.fetchImage(`http://${window.location.hostname}/photos-train/${name}/${i}.JPG`)
                 const detections = await faceapi.detectSingleFace(image)
                     .withFaceLandmarks()
                     .withFaceDescriptor()
@@ -152,9 +152,12 @@ const startVideo = async () => {
 
                 drawBox.draw(canvas)
 
-                faceapi.draw.drawFaceLandmarks(canvas, resizedDetections[i])
-                faceapi.draw.drawFaceExpressions(canvas, resizedDetections[i])
+                // faceapi.draw.drawFaceLandmarks(canvas, resizedDetections[i])
+                // faceapi.draw.drawFaceExpressions(canvas, resizedDetections[i])
             })
+
+            faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
+            faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
         }, 100)
     })
 }
